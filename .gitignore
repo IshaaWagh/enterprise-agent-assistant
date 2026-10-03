@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.mypy_cache/
+
+# Secrets - NEVER commit these
+.env
+*.pem
+
+# Node
+node_modules/
+dist/
+
+# Data / local stores
+chroma_data/
+postgres_data/
+data/raw/
+*.sqlite3
+
+# ML artifacts (large)
+*.joblib
+*.pkl
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
