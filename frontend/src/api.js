@@ -19,5 +19,8 @@ export const api = {
   activity: (id) => request(`/api/projects/${id}/activity`),
   commits: (id, limit = 8) => request(`/api/projects/${id}/commits?limit=${limit}`),
   pullRequests: (id, limit = 8) => request(`/api/projects/${id}/pull-requests?limit=${limit}`),
+  tickets: (id) => request(`/api/projects/${id}/tickets`),
+  ticketSummary: (id) => request(`/api/projects/${id}/tickets/summary`),
   syncGithub: () => request("/api/sync/github", { method: "POST" }),
+  syncJira: () => request("/api/sync/jira", { method: "POST" }),
 };

@@ -20,6 +20,7 @@ class Ticket(Base):
     description: Mapped[str | None] = mapped_column(Text)
     ticket_type: Mapped[str] = mapped_column(String(30), default="Task")  # Story/Bug/Task
     status: Mapped[str] = mapped_column(String(30), default="To Do", index=True)
+    status_category: Mapped[str | None] = mapped_column(String(20), index=True)  # new|indeterminate|done
     priority: Mapped[str] = mapped_column(String(20), default="Medium")
     assignee_id: Mapped[int | None] = mapped_column(
         ForeignKey("people.id", ondelete="SET NULL"), index=True

@@ -5,7 +5,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from app.api import projects, sync
+from app.api import projects, sync, tickets
 from app.db.session import get_db
 
 logging.basicConfig(level=logging.INFO)
@@ -19,6 +19,7 @@ app = FastAPI(
 
 app.include_router(sync.router)
 app.include_router(projects.router)
+app.include_router(tickets.router)
 
 
 @app.get("/api/health", tags=["system"])
