@@ -5,10 +5,12 @@ import { useAsync } from "../hooks";
 import { useProject } from "../context/ProjectContext";
 import { timeAgo } from "../utils";
 import ActivityChart from "../components/ActivityChart";
+import PipelineTrace from "../components/PipelineTrace";
 import {
-  Badge, Button, Card, CardBody, CardHeader, EmptyState, ErrorState, HEALTH,
+  Badge, Button, Card, CardBody, CardHeader, EmptyState, ErrorState, HEALTH,LinkButton,
   LoadingState, Metric, PageHeader,
 } from "../components/ui";
+
 
 const NODE_LABELS = { ticket: "Tickets", person: "People", commit: "Commits linked to tickets", pr: "Pull requests" };
 
@@ -112,6 +114,7 @@ export default function ProjectAnalysisPage() {
           <p className="mt-3 text-xs text-slate-400">Health status uses a baseline heuristic until the Risk Prediction Agent's ML model is built.</p>
         </CardBody>
       </Card>
+      <PipelineTrace pipeline={state.pipeline} />
 
       <div className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <Metric label="Open tickets" value={state.tickets.total ? open : "Awaiting Jira data"} muted={!state.tickets.total} />
@@ -144,7 +147,7 @@ export default function ProjectAnalysisPage() {
         </Card>
 
         <Card>
-          <CardHeader title="Knowledge graph" subtitle={`${nodeTotal} nodes · ${edgeTotal} relationships`} action={<Button disabled title="The graph explorer needs a graph API endpoint (planned)">Explore relationships</Button>} />
+          <CardHeader title="Knowledge graph" subtitle={`${nodeTotal} nodes · ${edgeTotal} relationships`} action={<LinkButton to="/agents/analysis/graph">Explore relationships</LinkButton>} />
           <CardBody>
             <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
               {Object.entries(state.graph.nodes).map(([type, n]) => (

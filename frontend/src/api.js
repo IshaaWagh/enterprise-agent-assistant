@@ -52,4 +52,5 @@ export const api = {
   analyze: (id) => request(`/api/projects/${id}/analyze`, { method: "POST" }),
   syncGithub: () => request("/api/sync/github", { method: "POST" }),
   syncJira: () => request("/api/sync/jira", { method: "POST" }),
+  graph: (id) => request(`/api/projects/${id}/graph`),
 };

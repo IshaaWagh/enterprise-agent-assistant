@@ -5,9 +5,9 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from app.api import analysis, auth, projects, sync, tickets
-from app.db.session import get_db
 
+from app.db.session import get_db
+from app.api import analysis, auth, graph, projects, sync, tickets
 
 
 logging.basicConfig(level=logging.INFO)
@@ -24,6 +24,7 @@ app.include_router(projects.router)
 app.include_router(tickets.router)
 app.include_router(analysis.router)
 app.include_router(auth.router)
+app.include_router(graph.router)
 
 
 @app.get("/api/health", tags=["system"])

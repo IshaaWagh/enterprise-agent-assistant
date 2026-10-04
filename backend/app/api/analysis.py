@@ -2,11 +2,13 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.agents.analysis import run_analysis
+
 from app.api.projects import _project_or_404
 from app.db.models import ProjectSnapshot
 from app.db.session import get_db
 from app.api.deps import require_project_access
+from app.agents.pipeline import run_pipeline
+
 
 router = APIRouter(
     prefix="/api/projects", tags=["analysis"], dependencies=[Depends(require_project_access)]
@@ -27,7 +29,7 @@ def _out(s: ProjectSnapshot) -> dict:
 def analyze(project_id: int, db: Session = Depends(get_db)) -> dict:
     """Run the Project Analysis Agent and save the result as a new snapshot."""
     project = _project_or_404(db, project_id)
-    return _out(run_analysis(db, project))
+    return _out(run_pipeline(db, project))
 
 
 @router.get("/{project_id}/analysis/latest")
