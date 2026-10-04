@@ -41,6 +41,10 @@ class Settings(BaseSettings):
     jira_api_token: SecretStr | None = None
     jira_project_key: str | None = None
 
+    # Gemini LLM
+    gemini_api_key: SecretStr | None = None
+    gemini_model: str = "gemini-3-flash-preview"
+
     @property
     def database_url(self) -> URL:
         # URL.create safely escapes special characters in the password.

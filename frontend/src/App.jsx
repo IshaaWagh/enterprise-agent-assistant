@@ -7,6 +7,7 @@ import Contributors from "./components/Contributors";
 import RecentCommits from "./components/RecentCommits";
 import PullRequestsTable from "./components/PullRequestsTable";
 import TicketsPanel from "./components/TicketsPanel";
+import AnalysisCard from "./components/AnalysisCard";
 
 function Panel({ title, children, className = "" }) {
   return (
@@ -136,6 +137,7 @@ export default function App() {
 
         {data && (
           <>
+            <AnalysisCard projectId={project.id} />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Commits" value={data.summary.commits} sub={`Last: ${timeAgo(data.summary.last_commit_at)}`} />
               <StatCard
