@@ -1,0 +1,91 @@
+export const AGENTS = [
+  {
+    id: "analysis",
+    number: 1,
+    name: "Project Analysis Agent",
+    short: "Project Analysis",
+    status: "active",
+    route: "/agents/analysis",
+    description:
+      "Analyzes GitHub and Jira project activity and generates a project-state summary while maintaining the project knowledge graph.",
+    input: "Raw GitHub and Jira data",
+    output: "Project-state object: statistics, plain-language summary, and the updated knowledge graph",
+    dependsOn: [],
+    willShow: [],
+  },
+  {
+    id: "risk",
+    number: 2,
+    name: "Risk Prediction Agent",
+    short: "Risk Prediction",
+    status: "planned",
+    route: "/agents/risk",
+    description:
+      "Predicts the probability that an open ticket will be late using historical ticket features and a machine-learning model. This is a trained ML model, not an LLM-only approach.",
+    input: "Ticket features from the Project Analysis Agent's project state and knowledge graph",
+    output: "A late-delivery probability per open ticket, the top contributing factors, and a calibrated confidence",
+    dependsOn: ["analysis"],
+    willShow: [
+      "Ticket risk probability, ranked",
+      "Top contributing factors for each ticket",
+      "Risk trend over time",
+      "Prediction confidence and calibration",
+    ],
+  },
+  {
+    id: "resources",
+    number: 3,
+    name: "Resource Management Agent",
+    short: "Resource Management",
+    status: "planned",
+    route: "/agents/resources",
+    description:
+      "Analyzes team workload and identifies overloaded people, available capacity, and potential reassignment opportunities.",
+    input: "Ticket assignments and estimates from Jira, plus contributor activity from GitHub",
+    output: "Per-person workload, overloaded and available members, and suggested reassignments",
+    dependsOn: ["analysis"],
+    willShow: [
+      "Team member and role",
+      "Active projects",
+      "Open tickets and estimated workload",
+      "Capacity, overloaded and available members",
+      "Suggested reassignment",
+    ],
+  },
+  {
+    id: "decision",
+    number: 4,
+    name: "Decision Agent",
+    short: "Decision",
+    status: "planned",
+    route: "/agents/decision",
+    description:
+      "Combines Project Analysis, Risk Prediction, Resource Management, and knowledge-graph signals to identify the most important issue and recommend one concrete action with a confidence level.",
+    input: "Outputs of the Project Analysis, Risk Prediction, and Resource Management agents, plus knowledge-graph signals",
+    output: "The most important issue, its root cause, one recommended action, a confidence level, and the supporting evidence",
+    dependsOn: ["analysis", "risk", "resources"],
+    willShow: [
+      "Most important issue",
+      "Root cause from the knowledge graph",
+      "One concrete recommended action",
+      "Confidence: high, medium or low",
+      "Evidence from GitHub, Jira, resource data and the knowledge graph",
+    ],
+  },
+  {
+    id: "actions",
+    number: 5,
+    name: "Autonomous Action Agent",
+    short: "Autonomous Action",
+    status: "planned",
+    route: "/agents/actions",
+    description:
+      "Executes or queues recommended actions based on the configured autonomy level (the trust dial): Suggest Only, Approve First, or Fully Autonomous.",
+    input: "The Decision Agent's recommendation and the configured autonomy level",
+    output: "An executed or queued action (for example a Jira ticket or a Slack alert) with approval status and an audit trail",
+    dependsOn: ["decision"],
+    willShow: ["Autonomy level control", "Approval queue", "Execution history and track record"],
+  },
+];
+
+export const agentById = (id) => AGENTS.find((a) => a.id === id);
