@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { ProjectProvider } from "./context/ProjectContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 import AppShell from "./components/AppShell";
+import LoginPage from "./pages/LoginPage";
 import OverviewPage from "./pages/OverviewPage";
 import GitHubPage from "./pages/GitHubPage";
 import JiraPage from "./pages/JiraPage";
@@ -10,8 +11,9 @@ import { AnalyticsPage, PlannedAgentPage, ReportsPage, SettingsPage } from "./pa
 
 export default function App() {
   return (
-    <ProjectProvider>
-      <Routes>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<ProtectedRoute />}>
         <Route element={<AppShell />}>
           <Route index element={<OverviewPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
@@ -29,7 +31,7 @@ export default function App() {
           <Route path="settings" element={<SettingsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
-      </Routes>
-    </ProjectProvider>
+      </Route>
+    </Routes>
   );
 }

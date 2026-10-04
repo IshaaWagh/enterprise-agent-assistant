@@ -8,9 +8,11 @@ from app.api.projects import _project_or_404
 from app.db.models import Ticket, TicketLink
 from app.db.session import get_db
 from app.schemas.ticket import TicketOut
+from app.api.deps import require_project_access
 
-router = APIRouter(prefix="/api/projects", tags=["tickets"])
-
+router = APIRouter(
+    prefix="/api/projects", tags=["tickets"], dependencies=[Depends(require_project_access)]
+)
 
 def _load(db: Session, project_id: int) -> list[TicketOut]:
     tickets = db.scalars(

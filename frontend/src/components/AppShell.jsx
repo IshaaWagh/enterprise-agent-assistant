@@ -8,6 +8,7 @@ import { api } from "../api";
 import { AGENTS } from "../agents";
 import { useProject } from "../context/ProjectContext";
 import { Button, Card, EmptyState, ErrorState, LoadingState } from "./ui";
+import UserMenu from "./UserMenu";
 
 const MAIN_NAV = [
   { to: "/", label: "Overview", icon: LayoutDashboard, end: true },
@@ -152,9 +153,12 @@ export default function AppShell() {
               </>
             )}
           </div>
-          <button onClick={refresh} className="rounded-md p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800" aria-label="Refresh data" title="Refresh data">
-            <RefreshCw className="h-4 w-4" />
-          </button>
+                    <div className="flex items-center gap-1">
+            <button onClick={refresh} className="rounded-md p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800" aria-label="Refresh data" title="Refresh data">
+              <RefreshCw className="h-4 w-4" />
+            </button>
+            <UserMenu />
+          </div>
         </header>
 
         <main className="flex-1 px-4 py-6 lg:px-8">

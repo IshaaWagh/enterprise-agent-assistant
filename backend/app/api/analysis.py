@@ -6,9 +6,11 @@ from app.agents.analysis import run_analysis
 from app.api.projects import _project_or_404
 from app.db.models import ProjectSnapshot
 from app.db.session import get_db
+from app.api.deps import require_project_access
 
-router = APIRouter(prefix="/api/projects", tags=["analysis"])
-
+router = APIRouter(
+    prefix="/api/projects", tags=["analysis"], dependencies=[Depends(require_project_access)]
+)
 
 def _out(s: ProjectSnapshot) -> dict:
     return {

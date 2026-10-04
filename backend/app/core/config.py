@@ -1,7 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import SecretStr
+from pydantic import SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.engine import URL
 
@@ -44,6 +44,19 @@ class Settings(BaseSettings):
     # Gemini LLM
     gemini_api_key: SecretStr | None = None
     gemini_model: str = "gemini-3-flash-preview"
+
+        # Authentication
+    jwt_secret: SecretStr  # required: the app refuses to start without it
+    jwt_expire_minutes: int = 480
+    cookie_name: str = "pp_session"
+    cookie_secure: bool = False
+
+    @field_validator("jwt_secret")
+    @classmethod
+    def _jwt_secret_long_enough(cls, v: SecretStr) -> SecretStr:
+        if len(v.get_secret_value()) < 32:
+            raise ValueError("JWT_SECRET must be at least 32 characters")
+        return v
 
     @property
     def database_url(self) -> URL:

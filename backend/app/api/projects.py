@@ -2,13 +2,15 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app.db.models import Commit, Project, PullRequest
+from app.db.models import Commit, Project, PullRequest,ProjectAccess,User
 from app.db.session import get_db
 from app.schemas.project import CommitOut, ProjectOut, PullRequestOut
 from datetime import timedelta
+from app.api.deps import get_current_user, require_project_access
 
-router = APIRouter(prefix="/api/projects", tags=["projects"])
-
+router = APIRouter(
+    prefix="/api/projects", tags=["projects"], dependencies=[Depends(require_project_access)]
+)
 
 def _project_or_404(db: Session, project_id: int) -> Project:
     project = db.get(Project, project_id)
@@ -18,8 +20,14 @@ def _project_or_404(db: Session, project_id: int) -> Project:
 
 
 @router.get("", response_model=list[ProjectOut])
-def list_projects(db: Session = Depends(get_db)):
-    return db.scalars(select(Project).order_by(Project.id)).all()
+def list_projects(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Only projects the signed-in user has access to."""
+    return db.scalars(
+        select(Project)
+        .join(ProjectAccess, ProjectAccess.project_id == Project.id)
+        .where(ProjectAccess.user_id == user.id)
+        .order_by(Project.id)
+    ).all()
 
 
 @router.get("/{project_id}/commits", response_model=list[CommitOut])
