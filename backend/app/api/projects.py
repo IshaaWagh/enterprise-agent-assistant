@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.db.models import Commit, Project, PullRequest
 from app.db.session import get_db
 from app.schemas.project import CommitOut, ProjectOut, PullRequestOut
+from datetime import timedelta
 
 router = APIRouter(prefix="/api/projects", tags=["projects"])
 
@@ -88,3 +89,27 @@ def project_summary(project_id: int, db: Session = Depends(get_db)) -> dict:
         else None,
         "top_contributors": [{"login": login, "commits": n} for login, n in top_contributors],
     }
+
+@router.get("/{project_id}/activity")
+def commit_activity(
+    project_id: int, weeks: int = Query(12, ge=1, le=104), db: Session = Depends(get_db)
+) -> list[dict]:
+    """Commits per week for the last N weeks. Empty weeks are filled with 0."""
+    _project_or_404(db, project_id)
+    week = func.date_trunc("week", Commit.committed_at).label("week")
+    rows = db.execute(
+        select(week, func.count().label("commits"))
+        .where(Commit.project_id == project_id)
+        .group_by(week)
+        .order_by(week)
+    ).all()
+    if not rows:
+        return []
+
+    counts = {w.date(): n for w, n in rows}
+    current, last = min(counts), max(counts)
+    series = []
+    while current <= last:
+        series.append({"week": current.isoformat(), "commits": counts.get(current, 0)})
+        current += timedelta(days=7)
+    return series[-weeks:]
