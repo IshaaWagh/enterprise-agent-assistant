@@ -190,7 +190,10 @@ export default function ProjectAnalysisPage() {
             </ul>
           )}
           <p className="mt-4 text-xs text-slate-400">The full trace through pull requests, commits and people is planned. Today the graph traces ticket-to-ticket blockers.</p>
-        </CardBody>
+          <div className="mt-4">
+            <LinkButton to="/agents/analysis/trace">Trace a ticket's root cause</LinkButton>
+          </div>
+                  </CardBody>
       </Card>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">

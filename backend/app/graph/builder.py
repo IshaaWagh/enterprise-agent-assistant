@@ -50,14 +50,21 @@ def build_graph(db: Session, project_id: int) -> nx.MultiDiGraph:
         if c.ticket_key not in by_key:
             continue
         node = f"commit:{c.sha[:7]}"
-        G.add_node(node, type="commit", label=c.sha[:7], title=c.message.split("\n")[0])
+        G.add_node(
+            node, type="commit", label=c.sha[:7], title=c.message.split("\n")[0],
+            committed_at=c.committed_at.isoformat(),
+        )        
         G.add_edge(node, f"ticket:{c.ticket_key}", relation="references")
         if c.person_id in people:
             G.add_edge(f"person:{c.person_id}", node, relation="authored")
 
     for pr in prs:
         node = f"pr:{pr.number}"
-        G.add_node(node, type="pr", label=f"PR #{pr.number}", title=pr.title, state=pr.state)
+        G.add_node(
+            node, type="pr", label=f"PR #{pr.number}", title=pr.title, state=pr.state,
+            created_at=pr.created_at.isoformat(),
+            merged_at=pr.merged_at.isoformat() if pr.merged_at else None,
+        )        
         if pr.ticket_key in by_key:
             G.add_edge(node, f"ticket:{pr.ticket_key}", relation="references")
         if pr.person_id in people:

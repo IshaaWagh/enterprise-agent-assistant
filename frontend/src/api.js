@@ -53,4 +53,5 @@ export const api = {
   syncGithub: () => request("/api/sync/github", { method: "POST" }),
   syncJira: () => request("/api/sync/jira", { method: "POST" }),
   graph: (id) => request(`/api/projects/${id}/graph`),
+  trace: (id, key) => request(`/api/projects/${id}/trace/${encodeURIComponent(key)}`),
 };

@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 
 from app.db.session import get_db
-from app.api import analysis, auth, graph, projects, sync, tickets
+from app.api import analysis, auth, graph, projects, sync, tickets,trace
 
 
 logging.basicConfig(level=logging.INFO)
@@ -25,6 +25,7 @@ app.include_router(tickets.router)
 app.include_router(analysis.router)
 app.include_router(auth.router)
 app.include_router(graph.router)
+app.include_router(trace.router)
 
 
 @app.get("/api/health", tags=["system"])
