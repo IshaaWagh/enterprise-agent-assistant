@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import {
   Activity, BarChart3, FileText, GitBranch, KanbanSquare, LayoutDashboard,
-  Menu, RefreshCw, Settings, ShieldAlert, Users,
+  Menu, RefreshCw, Settings, ShieldAlert, Users,BookOpen
 } from "lucide-react";
 import { api } from "../api";
 import { AGENTS } from "../agents";
