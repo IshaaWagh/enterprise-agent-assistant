@@ -20,7 +20,8 @@ async function request(path, options) {
     try {
       const body = await res.json();
       if (typeof body.detail === "string") detail = body.detail;
-    } catch {
+      else if (Array.isArray(body.detail)) detail = body.detail.map((d) => d.msg).join("; ");
+        } catch {
       /* response had no JSON body */
     }
     if (res.status === 401 && !path.startsWith("/api/auth/")) unauthorizedHandler?.();
@@ -54,4 +55,9 @@ export const api = {
   syncJira: () => request("/api/sync/jira", { method: "POST" }),
   graph: (id) => request(`/api/projects/${id}/graph`),
   trace: (id, key) => request(`/api/projects/${id}/trace/${encodeURIComponent(key)}`),
+  documents: (id) => request(`/api/projects/${id}/documents`),
+  createDocument: (id, body) => request(`/api/projects/${id}/documents`, json("POST", body)),
+  uploadDocument: (id, formData) => request(`/api/projects/${id}/documents/upload`, { method: "POST", body: formData }),
+  deleteDocument: (id, docId) => request(`/api/projects/${id}/documents/${docId}`, { method: "DELETE" }),
+  ask: (id, question) => request(`/api/projects/${id}/ask`, json("POST", { question })),
 };

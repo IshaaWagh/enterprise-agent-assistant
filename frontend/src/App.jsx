@@ -10,6 +10,7 @@ import ProjectAnalysisPage from "./pages/ProjectAnalysisPage";
 import { AnalyticsPage, PlannedAgentPage, ReportsPage, SettingsPage } from "./pages/PlannedPages";
 import KnowledgeGraphPage from "./pages/KnowledgeGraphPage";
 import RootCauseTracePage from "./pages/RootCauseTracePage";
+import DocumentsPage from "./pages/DocumentsPage";
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="reports" element={<ReportsPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="documents" element={<DocumentsPage />} />  
         </Route>
       </Route>
     </Routes>

@@ -4,10 +4,9 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
-
+from app.api import analysis, auth, documents, graph, projects, sync, tickets, trace
 
 from app.db.session import get_db
-from app.api import analysis, auth, graph, projects, sync, tickets,trace
 
 
 logging.basicConfig(level=logging.INFO)
@@ -26,6 +25,7 @@ app.include_router(analysis.router)
 app.include_router(auth.router)
 app.include_router(graph.router)
 app.include_router(trace.router)
+app.include_router(documents.router)
 
 
 @app.get("/api/health", tags=["system"])

@@ -17,6 +17,7 @@ const MAIN_NAV = [
   { to: "/jira", label: "Jira", icon: KanbanSquare },
   { to: "/github", label: "GitHub", icon: GitBranch },
   { to: "/team", label: "Team & Resources", icon: Users },
+  { to: "/documents", label: "Documents", icon: BookOpen },
 ];
 
 function NavItem({ to, label, icon: Icon, end, dot, onNavigate }) {
