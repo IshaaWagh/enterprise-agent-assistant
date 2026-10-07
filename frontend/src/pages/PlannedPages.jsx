@@ -125,16 +125,26 @@ const PlannedList = ({ items }) => (
 export function ReportsPage() {
   return (
     <>
-      <PageHeader title="Reports" description="Exportable reports are generated from agent outputs. None have been built yet, so none are shown." />
-      <PlannedList
-        items={[
-          ["Project Health Report", "Delivery health and trends. Needs the Project Analysis Agent history."],
-          ["Risk Report", "Late-ticket probabilities and factors. Needs the Risk Prediction Agent."],
-          ["Resource Report", "Workload and capacity. Needs the Resource Management Agent."],
-          ["AI Decision Report", "Recommendations with evidence. Needs the Decision Agent."],
-          ["Action History", "Executed and approved actions. Needs the Autonomous Action Agent."],
-        ]}
-      />
+      <PageHeader title="Reports" description="Exportable delivery reports generated live from the five active AI agents." />
+      <Card>
+        <ul className="divide-y divide-slate-100 px-5">
+          {[
+            ["Project Health Report", "Delivery health, velocity, and knowledge graph analysis.", "/agents/analysis"],
+            ["Risk Report", "Late-ticket probabilities, feature importances, and calibration.", "/agents/risk"],
+            ["Resource Report", "Team workload, capacity distribution, and rebalancing plan.", "/agents/resources"],
+            ["AI Decision Report", "Single most critical issue, root-cause citation, and concrete action.", "/agents/decision"],
+            ["Action History", "Executed and approved actions audit trail and track record.", "/agents/actions"],
+          ].map(([name, text, link]) => (
+            <li key={name} className="flex items-center justify-between gap-4 py-3.5">
+              <div>
+                <p className="text-sm font-medium text-slate-800">{name}</p>
+                <p className="text-xs text-slate-500">{text}</p>
+              </div>
+              <LinkButton to={link} variant="secondary">View Report</LinkButton>
+            </li>
+          ))}
+        </ul>
+      </Card>
     </>
   );
 }
@@ -142,15 +152,25 @@ export function ReportsPage() {
 export function AnalyticsPage() {
   return (
     <>
-      <PageHeader title="Analytics" description="Trends over time need repeated analyses and historical data, which are being collected." />
-      <PlannedList
-        items={[
-          ["Delivery trends", "Ticket flow and cycle time across weeks."],
-          ["Forecast accuracy", "How well past risk predictions matched real outcomes (calibration)."],
-          ["Agent track record", "Approved vs rejected recommendations."],
-        ]}
-      />
-      <div className="mt-4"><LinkButton to="/github">View commit activity trend</LinkButton></div>
+      <PageHeader title="Analytics" description="Cross-agent intelligence and delivery trends over time." />
+      <Card>
+        <ul className="divide-y divide-slate-100 px-5">
+          {[
+            ["Delivery trends & commit frequency", "Activity history across repository and tickets.", "/github"],
+            ["Forecast accuracy & calibration", "Brier score and validation metrics for late predictions.", "/agents/risk"],
+            ["Agent track record & acceptance rate", "Approved vs rejected recommendations under the Trust Dial.", "/agents/actions"],
+            ["Team capacity distribution", "Workload balance and what-if simulation tool.", "/agents/resources"],
+          ].map(([name, text, link]) => (
+            <li key={name} className="flex items-center justify-between gap-4 py-3.5">
+              <div>
+                <p className="text-sm font-medium text-slate-800">{name}</p>
+                <p className="text-xs text-slate-500">{text}</p>
+              </div>
+              <LinkButton to={link} variant="secondary">View Analytics</LinkButton>
+            </li>
+          ))}
+        </ul>
+      </Card>
     </>
   );
 }

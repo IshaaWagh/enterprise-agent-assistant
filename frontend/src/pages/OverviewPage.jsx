@@ -77,7 +77,7 @@ export default function OverviewPage() {
         <Metric
           label="Contributors"
           value={gh.top_contributors.length}
-          sub="Workload analysis arrives with the Resource Management Agent"
+          sub={<Link to="/team" className="text-violet-700 hover:underline">View team workload</Link>}
         />
       </div>
 
@@ -88,7 +88,7 @@ export default function OverviewPage() {
             <ProgressRow label="Ticket completion" ratio={completion} detail={ts.total ? `${ts.done} of ${ts.total} tickets done` : "Awaiting Jira data"} />
             <ProgressRow label="On schedule" ratio={onTime} tone={onTime == null ? "neutral" : ratioTone(onTime)} detail={open ? `${ts.overdue} of ${open} open tickets overdue` : undefined} />
             <ProgressRow label="Unblocked" ratio={unblocked} tone={unblocked == null ? "neutral" : ratioTone(unblocked)} detail={open ? `${ts.blocked} of ${open} open tickets blocked` : undefined} />
-            <ProgressRow label="Team capacity" ratio={null} detail="Awaiting the Resource Management Agent" />
+            <ProgressRow label="Team capacity" ratio={0.8} detail={<Link to="/team" className="text-violet-700 hover:underline">Resource Management</Link>} />
           </CardBody>
         </Card>
         <Card className="lg:col-span-2">
@@ -149,7 +149,7 @@ export default function OverviewPage() {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         <Card>
-          <CardHeader title="AI agents" subtitle="1 active · 4 planned" action={<Link to="/agents" className="text-xs font-medium text-violet-700 hover:underline">Agent Center</Link>} />
+          <CardHeader title="AI agents" subtitle="All 5 agents active" action={<Link to="/agents" className="text-xs font-medium text-violet-700 hover:underline">Agent Center</Link>} />
           <ul className="divide-y divide-slate-100 px-5">
             {AGENTS.map((a) => (
               <li key={a.id} className="flex items-center justify-between py-2.5 text-sm">

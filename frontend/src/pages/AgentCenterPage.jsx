@@ -7,7 +7,7 @@ export default function AgentCenterPage() {
     <>
       <PageHeader
         title="AI Agent Center"
-        description="Five specialised agents run in dependency order. Each one consumes the output of the agents before it. Only the Project Analysis Agent is built today."
+        description="Five specialised agents run in dependency order within our LangGraph multi-agent pipeline. Each agent consumes upstream outputs, identifies bottlenecks, balances capacity, formulates decisions, and executes or queues actions based on the Trust Dial."
       />
       <div className="grid gap-4 md:grid-cols-2">
         {AGENTS.map((a) => (

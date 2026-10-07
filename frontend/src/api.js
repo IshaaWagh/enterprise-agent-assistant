@@ -60,4 +60,24 @@ export const api = {
   uploadDocument: (id, formData) => request(`/api/projects/${id}/documents/upload`, { method: "POST", body: formData }),
   deleteDocument: (id, docId) => request(`/api/projects/${id}/documents/${docId}`, { method: "DELETE" }),
   ask: (id, question) => request(`/api/projects/${id}/ask`, json("POST", { question })),
+  risk: (id) => request(`/api/projects/${id}/risk`),
+
+  // Agent 3: Resource Management
+  resources: (id) => request(`/api/projects/${id}/resources`),
+  simulateReassignment: (id, body) => request(`/api/projects/${id}/resources/simulate`, json("POST", body)),
+  reassignTicket: (id, body) => request(`/api/projects/${id}/resources/reassign`, json("POST", body)),
+
+  // Agent 4: Decision Agent
+  decisionLatest: (id) => request(`/api/projects/${id}/decision/latest`),
+  decisionHistory: (id) => request(`/api/projects/${id}/decision/history`),
+  generateDecision: (id) => request(`/api/projects/${id}/decision/generate`, { method: "POST" }),
+
+  // Agent 5: Autonomous Action Agent
+  actionSettings: (id) => request(`/api/projects/${id}/actions/settings`),
+  updateActionSettings: (id, body) => request(`/api/projects/${id}/actions/settings`, json("PUT", body)),
+  actionQueue: (id) => request(`/api/projects/${id}/actions/queue`),
+  actionHistory: (id) => request(`/api/projects/${id}/actions/history`),
+  approveAction: (id, actionId) => request(`/api/projects/${id}/actions/${actionId}/approve`, { method: "POST" }),
+  rejectAction: (id, actionId, reason) => request(`/api/projects/${id}/actions/${actionId}/reject`, json("POST", { reason })),
+  queueActionFromDecision: (id, decisionId) => request(`/api/projects/${id}/actions/from-decision`, json("POST", { decision_id: decisionId })),
 };
